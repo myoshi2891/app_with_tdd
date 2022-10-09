@@ -29,7 +29,7 @@
         @endif
 
         <!-- Page Content -->
-        <main class="py-4 container">
+        <main class="py-4 container mx-auto">
             @yield('content')
             {{-- {{ $slot }} --}}
         </main>
