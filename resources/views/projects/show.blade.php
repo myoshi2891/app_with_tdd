@@ -18,14 +18,33 @@
                     <h2 class="text-lg text-gray-400 font-normal mb-3">Tasks</h2>
 
                     @foreach ($project->tasks as $task)
-                        <div class="bg-white p-5 rounded-lg shadow mb-3">{{ $task->body }}</div>
+                        <div class="bg-white p-5 rounded-lg shadow mb-3">
+                            <form method="POST" action="{{ $task->path() }}">
+                                @method('PATCH')
+                                @csrf
+                                <div class="flex">
+                                    <input name="body" value="{{ $task->body }}"
+                                        class="w-full {{ $task->completed ? 'text-gray-400' : '' }}">
+                                    <input name="completed" type="checkbox" onchange="this.form.submit()"
+                                        {{ $task->completed ? 'checked' : '' }}>
+                                </div>
+                            </form>
+                        </div>
                     @endforeach
-                </div>
-                <div>
-                    <h2 class="text-lg text-gray-400 font-normal mb-3">General Notes</h2>
 
-                    <textarea class="bg-white rounded-lg shadow min-h-full w-full p-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    <div class="bg-white p-5 rounded-lg shadow mb-3">
+                        <form action="{{ $project->path() . '/tasks' }}" method="POST">
+                            @csrf
+                            <input placeholder="Add a new task." class="w-full" name="body">
+                        </form>
+
+                    </div>
+                    <div>
+                        <h2 class="text-lg text-gray-400 font-normal mb-3">General Notes</h2>
+
+                        <textarea class="bg-white rounded-lg shadow min-h-full w-full p-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         Cupiditate, natus.</textarea>
+                    </div>
                 </div>
             </div>
             <div class="lg:w-1/4 px-3">

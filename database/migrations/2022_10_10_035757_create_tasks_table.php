@@ -17,6 +17,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('project_id');
             $table->text('body');
+            $table->boolean('completed')->default(false);
             $table->timestamps();
         });
     }
