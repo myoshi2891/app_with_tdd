@@ -45,13 +45,22 @@
                         <form method="POST" action="{{ $project->path() }}">
                             @csrf
                             @method('PATCH')
-                            <textarea name="notes" class="bg-white rounded-lg shadow min-h-full w-full p-5 mb-4"
+
+                            <input name="notes" class="bg-white rounded-lg shadow min-h-full w-full p-5 mb-4"
                                 placeholder="Anything special that you want to make a note of?">
                             {{ $project->notes }}
-                        </textarea>
+                            </input>
                             <button type="submit"
                                 class="bg-blue-400 text-white text-sm no-underline rounded-lg shadow-md py-2 px-5">Save</button>
                         </form>
+                        @if ($errors->any())
+                            <div class="field mt-6">
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-sm text-red-500">{{ $error }}</li>
+                                @endforeach
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
