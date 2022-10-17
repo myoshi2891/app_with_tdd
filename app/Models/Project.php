@@ -12,10 +12,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Project extends Model
 {
     use HasFactory;
+    use RecordsActivity;
 
     protected $guarded = [];
-
-    public $old = [];
 
     public function path()
     {
@@ -37,24 +36,25 @@ class Project extends Model
         return $this->tasks()->create(compact('body'));
     }
 
-    public function recordActivity($description)
-    {
+    // public function recordActivity($description)
+    // {
 
-        $this->activity()->create([
-            'description' => $description,
-            'changes' => $this->activityChanges($description)
-        ]);
-    }
+    //     $this->activity()->create([
+    //         'description' => $description,
+    //         'changes' => $this->activityChanges(),
+    //         'project_id' => class_basename($this) === 'Project' ? $this->id : $this->project_id
+    //     ]);
+    // }
 
-    protected function activityChanges($description)
-    {
-        if ($description == 'updated') {
-            return [
-                'before' => Arr::except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
-                'after' => Arr::except($this->getChanges(), 'updated_at')
-            ];
-        }
-    }
+    // protected function activityChanges()
+    // {
+    //     if ($this->wasChanged()) {
+    //         return [
+    //             'before' => Arr::except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
+    //             'after' => Arr::except($this->getChanges(), 'updated_at')
+    //         ];
+    //     }
+    // }
 
     public function activity()
     {

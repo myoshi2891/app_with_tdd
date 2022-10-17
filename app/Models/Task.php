@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Models\Project;
 use App\Models\Activity;
+use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
     use HasFactory;
+    use RecordsActivity;
 
     protected $guarded = [];
 
@@ -18,6 +20,8 @@ class Task extends Model
     protected $casts = [
         'completed' => 'boolean'
     ];
+
+    protected static $recordableEvents = ['created', 'deleted'];
 
     public function complete()
     {
@@ -43,16 +47,38 @@ class Task extends Model
         return "/projects/{$this->project->id}/tasks/{$this->id}";
     }
 
-    public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'project_id' => $this->project_id,
-            'description' => $description
-        ]);
-    }
+    // public function recordActivity($description)
+    // {
+    //     $this->activity()->create([
+    //         'description' => $description,
+    //         'changes' => $this->activityChange(),
+    //         'project_id' => $this->project_id,
+    //     ]);
+    // }
+    // public function recordActivity($description)
+    // {
 
-    public function activity()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
-    }
+    //     $this->activity()->create([
+    //         'description' => $description,
+    //         'changes' => $this->activityChanges(),
+    //         'project_id' => class_basename($this) === 'Project' ? $this->id : $this->project_id
+    //     ]);
+    // }
+
+
+    // protected function activityChanges()
+    // {
+
+    //     if ($this->wasChanged()) {
+    //         return [
+    //             'before' => Arr::except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
+    //             'after' => Arr::except($this->getChanges(), 'updated_at')
+    //         ];
+    //     }
+    // }
+
+    // public function activity()
+    // {
+    //     return $this->morphMany(Activity::class, 'subject')->latest();
+    // }
 }
