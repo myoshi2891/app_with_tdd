@@ -66,11 +66,8 @@
             </div>
             <div class="lg:w-1/4 px-3">
                 @include('projects.card')
-                {{-- <div class="bg-white p-5 rounded-lg shadow">
-                    <h1>{{ $project->title }}</h1>
-                    <div>{{ $project->description }}</div>
-                    <a href="/projects">Go Back</a>
-                </div> --}}
+
+                @include('projects.activity.card')
             </div>
         </div>
     </main>
