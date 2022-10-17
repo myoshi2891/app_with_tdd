@@ -26,12 +26,7 @@ trait RecordsActivity
 
   protected function activityDescription($description)
   {
-
-    if (class_basename($this) !== 'Project') {
-      return "{$description}_" . strtolower(class_basename($this));
-    }
-
-    return $description;
+    return "{$description}_" . strtolower(class_basename($this));
   }
 
   protected static function recordableEvents()
@@ -46,6 +41,7 @@ trait RecordsActivity
   {
 
     $this->activity()->create([
+      'user_id' => ($this->project ?? $this)->owner->id,
       'description' => $description,
       'changes' => $this->activityChanges(),
       'project_id' => class_basename($this) === 'Project' ? $this->id : $this->project_id
